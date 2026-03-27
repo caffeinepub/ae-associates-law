@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Navy dark theme */
+    --radius: 0.25rem;
+    --background: 0.14 0.038 250;
+    --foreground: 0.96 0 0;
+    --card: 0.17 0.038 250;
+    --card-foreground: 0.96 0 0;
+    --popover: 0.17 0.038 250;
+    --popover-foreground: 0.96 0 0;
+    --primary: 0.72 0.1 82;
+    --primary-foreground: 0.12 0 0;
+    --secondary: 0.22 0.02 250;
+    --secondary-foreground: 0.96 0 0;
+    --muted: 0.22 0.02 250;
+    --muted-foreground: 0.72 0.006 250;
+    --accent: 0.72 0.1 82;
+    --accent-foreground: 0.12 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.3 0.025 250;
+    --input: 0.3 0.025 250;
+    --ring: 0.72 0.1 82;
+    --chart-1: 0.72 0.1 82;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+    --sidebar: 0.14 0.038 250;
+    --sidebar-foreground: 0.96 0 0;
+    --sidebar-primary: 0.72 0.1 82;
+    --sidebar-primary-foreground: 0.12 0 0;
+    --sidebar-accent: 0.22 0.02 250;
+    --sidebar-accent-foreground: 0.96 0 0;
+    --sidebar-border: 0.3 0.025 250;
+    --sidebar-ring: 0.72 0.1 82;
+
+    /* Custom tokens */
+    --gold: oklch(0.72 0.1 82);
+    --gold-hover: oklch(0.65 0.095 80);
+    --gold-dim: oklch(0.72 0.1 82 / 0.15);
+    --navy: oklch(0.14 0.038 250);
+    --navy-light: oklch(0.17 0.045 248);
+    --navy-card: oklch(0.19 0.04 248);
+    --charcoal: oklch(0.28 0.015 50);
+    --off-white: oklch(0.96 0 0);
+    --muted-text: oklch(0.78 0.008 250);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--navy);
+    color: var(--off-white);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Playfair Display", Georgia, serif;
+  }
+}
+
+/* ---- Animations ---- */
+@keyframes gold-line-grow {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 80px;
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.1 82 / 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 12px oklch(0.72 0.1 82 / 0);
+    transform: scale(1.04);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-gold-line {
+  animation: gold-line-grow 1s ease-out forwards;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+/* in-view animation */
+.in-view-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.in-view-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.stagger-children.in-view-visible > *:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+.stagger-children.in-view-visible > *:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.12s;
+}
+.stagger-children.in-view-visible > *:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.24s;
+}
+.stagger-children.in-view-visible > *:nth-child(4) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.36s;
+}
+.stagger-children.in-view-visible > *:nth-child(5) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.48s;
+}
+
+/* Service card hover */
+.service-card {
+  border: 1px solid oklch(0.72 0.1 82 / 0.3);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  transform-origin: bottom;
+}
+.service-card:hover::before {
+  transform: scaleY(1);
+}
+.service-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 40px oklch(0.72 0.1 82 / 0.12);
+  transform: translateY(-2px);
+}
+
+/* Nav scroll transition */
+.nav-solid {
+  background-color: oklch(0.14 0.038 250 / 0.97) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 oklch(0.72 0.1 82 / 0.15);
+}
+
+/* Gold divider line */
+.gold-divider {
+  height: 2px;
+  width: 80px;
+  background: var(--gold);
+  display: block;
+}
+
+/* Geometric background pattern */
+.hero-pattern {
+  background-image: linear-gradient(
+      135deg,
+      oklch(0.72 0.1 82 / 0.03) 1px,
+      transparent 1px
+    ), linear-gradient(45deg, oklch(0.72 0.1 82 / 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Gold button */
+.btn-gold {
+  background: var(--gold);
+  color: oklch(0.12 0 0);
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-gold:hover {
+  background: var(--gold-hover);
+  transform: translateY(-1px);
+}
+
+/* Outline button */
+.btn-outline-white {
+  background: transparent;
+  color: var(--off-white);
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--off-white);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline-white:hover {
+  background: var(--off-white);
+  color: var(--navy);
+  transform: translateY(-1px);
+}
+
+/* Gold outline button */
+.btn-outline-gold {
+  background: transparent;
+  color: var(--gold);
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline-gold:hover {
+  background: var(--gold);
+  color: oklch(0.12 0 0);
+  transform: translateY(-1px);
+}
+
+/* Testimonial stars */
+.stars-gold {
+  color: var(--gold);
+}
+
+/* Mobile menu */
+.mobile-nav-open {
+  animation: fade-up 0.3s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Nav link hover via CSS */
+.nav-link:hover {
+  color: var(--gold) !important;
+}
